@@ -13,7 +13,6 @@ const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
 
 const ENV = 'production';
-const sass = require('sass');
 
 module.exports = webpackMerge(commonConfig({ env: ENV }), {
     // Enable source maps. Please note that this will slow down the build.
@@ -21,11 +20,11 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     // devtool: 'source-map',
     entry: {
         polyfills: './src/main/webapp/app/polyfills',
-        global: './src/main/webapp/content/scss/global.scss',
+        global: './src/main/webapp/content/css/global.css',
         main: './src/main/webapp/app/app.main'
     },
     output: {
-        path: utils.root('build/resources/main/public'),
+        path: utils.root('target/classes/public'),
         filename: 'app/[name].[hash].bundle.js',
         chunkFilename: 'app/[id].[hash].chunk.js'
     },
@@ -33,26 +32,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         rules: [{
             test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
             loader: '@ngtools/webpack'
-        },
-        {
-            test: /\.scss$/,
-            use: ['to-string-loader', 'css-loader', {
-                loader: 'sass-loader',
-                options: { implementation: sass }
-            }],
-            exclude: /(vendor\.scss|global\.scss)/
-        },
-        {
-            test: /(vendor\.scss|global\.scss)/,
-            use: [
-                MiniCssExtractPlugin.loader,
-                'css-loader',
-                'postcss-loader',
-                {
-                    loader: 'sass-loader',
-                    options: { implementation: sass }
-                }
-            ]
         },
         {
             test: /\.css$/,
@@ -119,47 +98,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         }),
         new MomentLocalesPlugin({
             localesToKeep: [
-                    'en',
-                    'sq',
-                    'ar-ly',
-                    'hy-am',
-                    'be-by',
-                    'bn-bd',
-                    'ca',
-                    'zh-cn',
-                    'zh-tw',
-                    'cs',
-                    'da',
-                    'nl',
-                    'et',
-                    'fa',
-                    'fr',
-                    'gl',
-                    'de',
-                    'el',
-                    'hi',
-                    'hu',
-                    'id',
-                    'it',
-                    'ja',
-                    'ko',
-                    'mr',
-                    'my',
-                    'pl',
-                    'pt-br',
-                    'pt-pt',
-                    'ro',
-                    'ru',
-                    'sk',
-                    'sr',
-                    'es',
-                    'sv',
-                    'tr',
-                    'ta',
-                    'th',
-                    'uk',
-                    'uz-lat',
-                    'vi'
+                    'en'
                     // jhipster-needle-i18n-language-moment-webpack - JHipster will add/remove languages in this array
                 ]
         }),
